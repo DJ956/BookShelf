@@ -22,6 +22,7 @@ public class BookFactory {
 	 * @return
 	 */
 	private static String loadJson(String isbn) {
+		isbn = isbn.trim();
 		String urlStr = String.format(API_URL, isbn);
 		var builder = new StringBuilder();
 

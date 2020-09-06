@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header">
+</head>
+
+<body>
+	<div th:include="navbar"></div>
+	<div class="container">
+
+		<div class="row pt-3">
+			<!-- img -->
+			<form class="container p-3" th:action="@{/registry}" th:object="${book}" method="POST">
+
+				<div class="row mb-3">
+					<div class="col-4">
+						<label>ISBN:</label>
+					</div>
+					<div class="col-6">
+						<input class="form-control" id="isbnBox" type="text" name="isbn" th:field="*{isbn}">
+					</div>
+
+					<div class="col-3">
+						<a id="searchBtn" class="btn btn-success" role="button">検索</a>
+					</div>
+				</div>
+
+
+				<hr>
+
+				<div class="row">
+					<div class="bg-light">
+						<div class="col-4">
+							<div class="border">
+								<img class="w-100"  src="" alt="NO IMAGE"/>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-8">
+
+						<div class="row mb-3">
+							<div class="col-3">
+								<label>タイトル:</label>
+							</div>
+							<div class="col-9">
+								<input class="form-control" type="text" name="title" th:field="*{title}">
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-3">
+								<label>タイトル カナ:</label>
+							</div>
+							<div class="col-9">
+								<input class="form-control" type="text" name="title_kana" th:field="*{titleKana}"/>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-3">
+								<label>著者:</label>
+							</div>
+							<div class="col-9">
+								<input class="form-control" type="text" name="author" th:field="*{author}"/>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-3">
+								<label>出版日:</label>
+							</div>
+							<div class="col-9">
+								<input class="form-control" type="text" name="publishDate"/>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-3">
+								<label>カバー画像パス:</label>
+							</div>
+							<div class="col-9">
+								<input class="form-control" type="text" name="coverPath" th:field="*{coverPath}"/>
+							</div>
+						</div>
+
+						<div class="row mb-3">
+							<div class="col-3">
+								<label>巻数:</label>
+							</div>
+							<div class="col-9">
+								<input class="form-control" type="number" min="0" name="index" th:field="*{index}"/>
+							</div>
+						</div>
+
+					</div>	<!-- data col -->
+
+				</div>
+
+				<hr>
+
+				<div class="row float-right">
+					<div class="col">
+						<input class="form-control btn btn-primary" type="submit" value="登録">
+					</div>
+
+					<div class="col">
+						<input class="form-control btn btn-warning" type="reset" value="リセット">
+					</div>
+				</div>
+
+			</form>
+
+		</div>
+
+	</div>
+
+	<div th:include="footer"></div>
+	<script th:src="@{/js/default.js}"></script>
+</body>
+</html>

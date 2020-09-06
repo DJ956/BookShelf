@@ -50,7 +50,9 @@ public class Book {
 			}
 		}
 
-		setIndex(Integer.parseInt(numStr));
+		if(NumberUtils.isDigits(numStr) && getIndex() != -1) {
+			setIndex(Integer.parseInt(numStr));
+		}
 	}
 
 

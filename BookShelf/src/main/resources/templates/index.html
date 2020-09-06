@@ -4,27 +4,32 @@
 </head>
 <title>Test</title>
 <body>
-	<h1>Hello</h1>
+	<div th:include="navbar"></div>
 
-	<table border="1">
-		<tr>
-			<th>title</th>
-			<th>author</th>
-		</tr>
+	<div class="container">
+		<h1>Hello</h1>
 
-		<tr th:each="book : ${list}">
-			<td th:text="${book.title}"></td>
-			<td th:text="${book.author}"></td>
-		</tr>
-	</table>
+		<table border="1">
+			<tr>
+				<th>title</th>
+				<th>author</th>
+			</tr>
 
-<!--
-	<form th:action="@{/result}" th:object="${book}" method="post">
-		<input type="text" name="name" th:filed="*{title}" />
-		<input type="text" name="age" th:filed="*{age}" />
-		<input type="submit" value="ok"/>
-	</form>
- -->
+			<tr th:each="book : ${list}">
+				<td th:text="${book.title}"></td>
+				<td th:text="${book.author}"></td>
+			</tr>
+		</table>
+
+	<!--
+		<form th:action="@{/result}" th:object="${book}" method="post">
+			<input type="text" name="name" th:filed="*{title}" />
+			<input type="text" name="age" th:filed="*{age}" />
+			<input type="submit" value="ok"/>
+		</form>
+	 -->
+	</div>
+
 
  <div th:include="footer"></div>
 </body>
