@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="header">
 </head>
-<title>Test</title>
+<title>本の管理 BookShelf</title>
 <body>
 	<div th:include="navbar"></div>
+	<div id="active" class="home"></div>
 
 	<div class="container">
 		<h1>Hello</h1>
@@ -21,16 +22,10 @@
 			</tr>
 		</table>
 
-	<!--
-		<form th:action="@{/result}" th:object="${book}" method="post">
-			<input type="text" name="name" th:filed="*{title}" />
-			<input type="text" name="age" th:filed="*{age}" />
-			<input type="submit" value="ok"/>
-		</form>
-	 -->
 	</div>
 
 
  <div th:include="footer"></div>
+ <script th:src="@{/js/default.js}"></script>
 </body>
 </html>

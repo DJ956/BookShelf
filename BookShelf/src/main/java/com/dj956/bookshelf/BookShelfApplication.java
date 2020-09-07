@@ -37,6 +37,8 @@ public class BookShelfApplication {
 	public String registry(@ModelAttribute Book book, Model model) {
 		System.out.println(book);
 
+		bookService.registry(book);
+
 		return "index";
 	}
 

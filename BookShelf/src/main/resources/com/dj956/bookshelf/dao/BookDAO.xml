@@ -8,4 +8,9 @@
         book
     </select>
 
+    <insert id="registry">
+    	INSERT INTO book(title, title_kana, author, publishdate, isbn, cover_path, index)
+    	VALUES(#{title}, #{titleKana}, #{author}, #{publishDate}, #{isbn}, #{coverPath}, #{index});
+    </insert>
+
 </mapper>

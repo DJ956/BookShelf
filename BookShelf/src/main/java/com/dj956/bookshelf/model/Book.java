@@ -16,6 +16,7 @@ public class Book {
 
 	private int id;
 	private String title;
+
 	private String titleKana;
 	private String author;
 	private int publishDate;
@@ -36,7 +37,6 @@ public class Book {
 		this.id = id;
 	}
 
-
 	public String getTitle() {return title;}
 	public void setTitle(String title) {
 		this.title = title;
@@ -50,7 +50,7 @@ public class Book {
 			}
 		}
 
-		if(NumberUtils.isDigits(numStr) && getIndex() != -1) {
+		if(NumberUtils.isDigits(numStr)) {
 			setIndex(Integer.parseInt(numStr));
 		}
 	}
@@ -61,12 +61,10 @@ public class Book {
 		this.titleKana = titleKana;
 	}
 
-
 	public String getAuthor() {return author;}
 	public void setAuthor(String author) {
 		this.author = author;
 	}
-
 
 	public int getPublishDate() {return publishDate;}
 	public void setPublishDate(int publishDate) {

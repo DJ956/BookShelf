@@ -11,5 +11,6 @@ import com.dj956.bookshelf.model.Book;
 public interface BookDAO {
 
 	List<Book> selectAll();
+	void registry(Book book);
 
 }
