@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import com.dj956.bookshelf.model.Book;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -93,12 +95,14 @@ public class BookFactory {
 
 		var title = summary.get("title").asText();
 		var author = summary.get("author").asText();
-		var pubdate = summary.get("pubdate").asInt();
+
+		var pubdateStr = summary.get("pubdate").asText();
+		var pubdate = NumberUtils.isDigits(pubdateStr) ? summary.get("pubdate").asInt() : 0;
 		var cover = summary.get("cover").asText();
 
 		var details = node.get("onix").get("DescriptiveDetail");
 		var titleDetail = details.get("TitleDetail").get("TitleElement").get("TitleText");
-		var titleKana = titleDetail.get("collationkey").asText();
+		var titleKana = titleDetail.get("collationkey").asText().trim();
 
 
 		book = new Book();

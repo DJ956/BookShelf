@@ -4,8 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dj956.bookshelf.dao.BookDAO">
     <select id="selectAll" resultType="com.dj956.bookshelf.model.Book">
-        select * from
+        select
+        	id as id
+        	, title as title
+        	, title_kana as titleKana
+        	, author as author
+        	, publishdate as publishdate
+        	, isbn as isbn
+        	, cover_path as coverPath
+        	, index as index
+        from
         book
+    </select>
+
+    <select id="selectById" resultType="com.dj956.bookshelf.model.Book">
+    	select
+    		id as id
+        	, title as title
+        	, title_kana as titleKana
+        	, author as author
+        	, publishdate as publishDate
+        	, isbn as isbn
+        	, cover_path as coverPath
+        	, index as index
+    	from
+    	book
+    	where
+    		id = #{id}
     </select>
 
     <insert id="registry">

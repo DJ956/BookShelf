@@ -12,11 +12,13 @@
 
 		<table border="1">
 			<tr>
+				<th>id</th>
 				<th>title</th>
 				<th>author</th>
 			</tr>
 
 			<tr th:each="book : ${list}">
+				<td><a th:href="@{'/view?bookId=' + ${book.id}}" th:text="${book.id}"></a></td>
 				<td th:text="${book.title}"></td>
 				<td th:text="${book.author}"></td>
 			</tr>

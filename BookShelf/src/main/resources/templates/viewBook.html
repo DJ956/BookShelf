@@ -3,25 +3,24 @@
 <head th:include="header">
 </head>
 
-<title>本の登録</title>
+<title>本の詳細</title>
 
 <body>
 	<div th:include="navbar"></div>
-	<div id="active" class="registry"></div>
+	<div id="active" class="view"></div>
 
 	<div class="container">
-		<div id="msg" class="pt-2 d-none alert alert-daner">本が見つかりませんでした</div>
 
 		<div class="row pt-3">
 			<!-- img -->
-			<form class="container p-3" th:action="@{/registry}" th:object="${book}" method="POST">
+			<form class="container p-3" th:action="@{/update}" th:object="${book}" method="POST">
 
 				<div class="row mb-3">
 					<div class="col-2">
 						<label>ISBN:</label>
 					</div>
 					<div class="col-8">
-						<input class="form-control" id="isbnBox" type="text" name="isbn" th:field="*{isbn}">
+						<input class="form-control" id="isbnBox" type="text" name="isbn" th:value="${book.isbn}" >
 					</div>
 
 					<div class="col-2">
@@ -36,7 +35,7 @@
 					<div class="pb-3">
 						<div class="col-4">
 							<div>
-								<img id="img" src="" width="200" height="300"  alt="NO IMAGE"/>
+								<img id="img" src="" width="200" height="300" alt="NO IMAGE" />
 							</div>
 						</div>
 					</div>
@@ -48,7 +47,7 @@
 								<label>タイトル:</label>
 							</div>
 							<div class="col-9">
-								<input id="title" class="form-control" type="text" name="title" th:field="*{title}">
+								<input id="title" class="form-control" type="text" name="title"	th:value="*{title}">
 							</div>
 						</div>
 
@@ -57,7 +56,7 @@
 								<label>タイトル カナ:</label>
 							</div>
 							<div class="col-9">
-								<input id="titleKana" class="form-control" type="text" name="title_kana" th:field="*{titleKana}"/>
+								<input id="titleKana" class="form-control" type="text" name="title_kana" th:value="*{titleKana}" />
 							</div>
 						</div>
 
@@ -66,7 +65,7 @@
 								<label>著者:</label>
 							</div>
 							<div class="col-9">
-								<input id="author" class="form-control" type="text" name="author" th:field="*{author}"/>
+								<input id="author" class="form-control" type="text" name="author" th:value="*{author}" />
 							</div>
 						</div>
 
@@ -75,7 +74,7 @@
 								<label>出版日:</label>
 							</div>
 							<div class="col-9">
-								<input id="publishDate" class="form-control" type="text" name="publishDate"/>
+								<input id="publishDate" class="form-control" type="text" name="publishDate" th:value="*{publishDate}" />
 							</div>
 						</div>
 
@@ -84,7 +83,7 @@
 								<label>カバー画像パス:</label>
 							</div>
 							<div class="col-9">
-								<input id="coverPath" class="form-control" type="text" name="coverPath" th:field="*{coverPath}"/>
+								<input id="coverPath" class="form-control" type="text" name="coverPath" th:value="*{coverPath}" />
 							</div>
 						</div>
 
@@ -93,11 +92,12 @@
 								<label>巻数:</label>
 							</div>
 							<div class="col-9">
-								<input id="index" class="form-control" type="number" min="0" name="index" th:field="*{index}"/>
+								<input id="index" class="form-control" type="number" min="0" name="index" th:value="*{index}" />
 							</div>
 						</div>
 
-					</div>	<!-- data col -->
+					</div>
+					<!-- data col -->
 
 				</div>
 
@@ -105,11 +105,7 @@
 
 				<div class="row float-right">
 					<div class="col">
-						<input class="form-control btn btn-primary" type="submit" value="登録">
-					</div>
-
-					<div class="col">
-						<input class="form-control btn btn-warning" type="reset" value="リセット">
+						<input class="form-control btn btn-primary" type="submit" value="更新">
 					</div>
 				</div>
 
@@ -119,7 +115,18 @@
 
 	</div>
 
+
 	<div th:include="footer"></div>
 	<script th:src="@{/js/default.js}"></script>
+
+	<script>
+	$(function(){
+		$("#coverPath").on("onchange", function(){
+			$("#img").attr("src", $("#coverPath").val());
+		});
+	});
+
+	</script>
+
 </body>
 </html>

@@ -18,6 +18,10 @@ public class BookService {
 		return bookDAO.selectAll();
 	}
 
+	public Book getById(int id) {
+		return bookDAO.selectById(id);
+	}
+
 	public void registry(Book book) {
 		bookDAO.registry(book);
 	}

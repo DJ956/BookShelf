@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,10 +36,14 @@ public class BookShelfApplication {
 	}
 
 	@RequestMapping(value="/registry", method=RequestMethod.POST)
-	public String registry(@ModelAttribute Book book, Model model) {
-		System.out.println(book);
+	public String registry(@ModelAttribute @Validated Book book, BindingResult result, Model model) {
+		if(result.hasErrors()) {
+			model.addAttribute("error", result.getErrorCount());
+			return "registry_form";
+		}
 
 		bookService.registry(book);
+		model.addAttribute("list", bookService.getAll());
 
 		return "index";
 	}

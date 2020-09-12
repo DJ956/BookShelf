@@ -20,8 +20,13 @@ $(function(){
 			async:true,
 			success: function(data){
 				console.log(data);
+				if(data === ''){
+					$("#msg").removeClass("d-none");
+					$("#msg").addClass("alert alert-danger");
+					return;
+				}
 				$("#title").val(data.title);
-				$("#titleKana").val(data.titleKana);
+				$("#titleKana").val(data.titleKana.replace(' ', '').replace('　', ''));
 				$("#author").val(data.author);
 				$("#publishDate").val(data.publishDate);
 				$("#index").val(data.index);
