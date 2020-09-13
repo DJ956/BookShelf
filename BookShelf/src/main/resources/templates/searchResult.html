@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header">
+</head>
+<title>検索結果</title>
+<body>
+	<div th:include="navbar"></div>
+
+	<div class="container">
+		<div th:if="${isFailed != null && isFailed}">
+			<div class="alert alert-danger mt-2" role="alert"><p th:text="${msg}"></p></div>
+		</div>
+
+		<div th:if="${isFailed != null && !isFailed}">
+			<div class="alert alert-success mt-2" role="alert"><p th:text="${msg}"></p></div>
+		</div>
+
+
+		<div class="row">
+
+			<div class="col m-3" th:each="book:${books}">
+				<div class="card" style="width: 18rem;">
+					<img class="bd-placeholder-img card-img-top" width="100%" height="300" th:src="${book.coverPath}" />
+					<div class="card-body">
+						<h5 class="card-title" th:text="${book.title}"></h5>
+						<span>著者:</span>
+						<span class="card-text" th:text="${book.author}"></span>
+						<br>
+						<a th:href="@{'/view?bookId=' + ${book.id}}" class="btn btn-primary" role="button">詳細</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+	</div>
+
+
+ <div th:include="footer"></div>
+ <script th:src="@{/js/default.js}"></script>
+</body>
+</html>

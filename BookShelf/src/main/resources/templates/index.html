@@ -8,6 +8,14 @@
 	<div id="active" class="home"></div>
 
 	<div class="container">
+		<div th:if="${isFailed != null && isFailed}">
+			<div class="alert alert-danger m-2" role="alert"><p th:text="${msg}"></p></div>
+		</div>
+
+		<div th:if="${isFailed != null && !isFailed}">
+			<div class="alert alert-success m-2" role="alert"><p th:text="${msg}"></p></div>
+		</div>
+
 		<h1>Hello</h1>
 
 		<table border="1">

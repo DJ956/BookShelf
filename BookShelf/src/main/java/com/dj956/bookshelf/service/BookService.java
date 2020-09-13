@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dj956.bookshelf.dao.BookDAO;
 import com.dj956.bookshelf.model.Book;
+import com.dj956.bookshelf.model.SearchForm;
 
 @Service
 public class BookService {
@@ -24,6 +25,34 @@ public class BookService {
 
 	public void registry(Book book) {
 		bookDAO.registry(book);
+	}
+
+	public void update(Book book) {
+		bookDAO.updateBook(book);
+	}
+
+	public void delete(int id) {
+		bookDAO.deleteBook(id);
+	}
+
+	/**
+	 * 重複しないタイトルを取得
+	 * @return
+	 */
+	public List<String> getTitles(){
+		return bookDAO.selectTitleKana();
+	}
+
+	/**
+	 * 修復しない著者名を取得
+	 * @return
+	 */
+	public List<String> getAuthors(){
+		return bookDAO.selectAuthor();
+	}
+
+	public List<Book> search(SearchForm form){
+		return bookDAO.search(form);
 	}
 
 }

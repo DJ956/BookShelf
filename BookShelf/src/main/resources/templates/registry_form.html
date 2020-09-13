@@ -48,7 +48,8 @@
 								<label>タイトル:</label>
 							</div>
 							<div class="col-9">
-								<input id="title" class="form-control" type="text" name="title" th:field="*{title}">
+								<input id="title" class="form-control" type="text" name="title" th:field="*{title}" required>
+								<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color:red">error!</span>
 							</div>
 						</div>
 
@@ -57,7 +58,8 @@
 								<label>タイトル カナ:</label>
 							</div>
 							<div class="col-9">
-								<input id="titleKana" class="form-control" type="text" name="title_kana" th:field="*{titleKana}"/>
+								<input id="titleKana" class="form-control" type="text" name="title_kana" th:field="*{titleKana}" required/>
+								<span th:if="${#fields.hasErrors('titleKana')}" th:errors="*{titleKana}" style="color:red">error!</span>
 							</div>
 						</div>
 
@@ -66,7 +68,8 @@
 								<label>著者:</label>
 							</div>
 							<div class="col-9">
-								<input id="author" class="form-control" type="text" name="author" th:field="*{author}"/>
+								<input id="author" class="form-control" type="text" name="author" th:field="*{author}" required/>
+								<span th:if="${#fields.hasErrors('author')}" th:errors="*{author}" style="color:red">error!</span>
 							</div>
 						</div>
 
@@ -76,6 +79,7 @@
 							</div>
 							<div class="col-9">
 								<input id="publishDate" class="form-control" type="text" name="publishDate"/>
+								<span th:if="${#fields.hasErrors('publishDate')}" th:errors="*{publishDate}" style="color:red">error!</span>
 							</div>
 						</div>
 
@@ -94,6 +98,7 @@
 							</div>
 							<div class="col-9">
 								<input id="index" class="form-control" type="number" min="0" name="index" th:field="*{index}"/>
+								<span th:if="${#fields.hasErrors('index')}" th:errors="*{index}" style="color:red">error!</span>
 							</div>
 						</div>
 

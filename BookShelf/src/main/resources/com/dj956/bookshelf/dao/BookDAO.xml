@@ -4,38 +4,96 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dj956.bookshelf.dao.BookDAO">
     <select id="selectAll" resultType="com.dj956.bookshelf.model.Book">
-        select
-        	id as id
-        	, title as title
-        	, title_kana as titleKana
-        	, author as author
-        	, publishdate as publishdate
-        	, isbn as isbn
-        	, cover_path as coverPath
-        	, index as index
-        from
+        SELECT
+        	id AS id
+        	, title AS title
+        	, title_kana AS titleKana
+        	, author AS author
+        	, publishdate AS publishdate
+        	, isbn AS isbn
+        	, cover_path AS coverPath
+        	, index AS index
+        FROM
         book
+        ORDER BY id ASC
     </select>
 
     <select id="selectById" resultType="com.dj956.bookshelf.model.Book">
-    	select
-    		id as id
-        	, title as title
-        	, title_kana as titleKana
-        	, author as author
-        	, publishdate as publishDate
-        	, isbn as isbn
-        	, cover_path as coverPath
-        	, index as index
-    	from
+    	SELECT
+    		id AS id
+        	, title AS title
+        	, title_kana AS titleKana
+        	, author AS author
+        	, publishdate AS publishDate
+        	, isbn AS isbn
+        	, cover_path AS coverPath
+        	, index AS index
+    	FROM
     	book
-    	where
+    	WHERE
     		id = #{id}
+    </select>
+
+    <select id="search" resultType="com.dj956.bookshelf.model.Book">
+    	SELECT
+    		id AS id
+        	, title AS title
+        	, title_kana AS titleKana
+        	, author AS author
+        	, publishdate AS publishDate
+        	, isbn AS isbn
+        	, cover_path AS coverPath
+        	, index AS index
+    	FROM
+    	book
+    	WHERE
+    		1 = 1
+    		<if test="title != null and title != ''">
+    			AND title LIKE '%${title}%'
+    		</if>
+    		<if test="author != null and author != ''">
+    			AND author LIKE '%${author}%'
+    		</if>
+    		<if test="isbn != null and isbn != ''">
+    			AND isbn = #{isbn}
+    		</if>
+    		<if test="titleOp != null and titleOp != ''">
+    			AND title_kana LIKE '%${titleOp}%'
+    		</if>
+    		<if test="authorOp != null and authorOp != ''">
+    			AND author LIKE '%${authorOp}%'
+    		</if>
+		ORDER BY index ASC
+    </select>
+
+    <select id="selectTitleKana" resultType="string">
+    	SELECT
+    		DISTINCT(title_kana)
+    	FROM
+    	book
+    </select>
+
+    <select id="selectAuthor" resultType="string">
+    	SELECT
+    		DISTINCT(author)
+    	FROM
+    	book
     </select>
 
     <insert id="registry">
     	INSERT INTO book(title, title_kana, author, publishdate, isbn, cover_path, index)
     	VALUES(#{title}, #{titleKana}, #{author}, #{publishDate}, #{isbn}, #{coverPath}, #{index});
     </insert>
+
+    <update id="updateBook" parameterType="com.dj956.bookshelf.model.Book">
+    	UPDATE book SET
+    	title = #{title}, title_kana = #{titleKana}, author = #{author}, publishdate = #{publishDate}, isbn = #{isbn}, cover_path = #{coverPath}, index= #{index}
+    	WHERE id = #{id}
+    </update>
+
+	<delete id="deleteBook">
+		DELETE FROM book
+		WHERE id = #{id}
+	</delete>
 
 </mapper>

@@ -2,6 +2,10 @@ package com.dj956.bookshelf.model;
 
 import java.util.regex.Pattern;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang.math.NumberUtils;
 
 public class Book {
@@ -15,11 +19,17 @@ public class Book {
 	}
 
 	private int id;
+	@NotNull(message="必須です")
 	private String title;
 
+	@NotNull(message="必須です")
 	private String titleKana;
+
+	@NotNull(message="必須です")
 	private String author;
+
 	private int publishDate;
+
 	private String isbn;
 
 	/**
@@ -30,6 +40,8 @@ public class Book {
 	/**
 	 * n巻
 	 */
+	@Min(0)
+	@Max(8)
 	private int index = -1;
 
 	public int getId() {return id;}
@@ -50,7 +62,7 @@ public class Book {
 			}
 		}
 
-		if(NumberUtils.isDigits(numStr)) {
+		if(NumberUtils.isDigits(numStr) && (index == -1 || index == 0)) {
 			setIndex(Integer.parseInt(numStr));
 		}
 	}

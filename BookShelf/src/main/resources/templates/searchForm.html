@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header">
+</head>
+<title>本の検索</title>
+<body>
+	<div th:include="navbar"></div>
+	<div id="active" class="search"></div>
+
+	<div class="container">
+		<form class="form-group m-2 p-3" th:action="@{/search/result}" th:object="${searchForm}" method="POST">
+			<div class="row m-2">
+				<div class="col-3">
+					<p>タイトル検索:</p>
+				</div>
+				<div class="col-9">
+					<input class="form-control" type="text" name="title"/>
+				</div>
+			</div>
+
+			<div class="row m-2">
+				<div class="col-3">
+					<p>著者検索:</p>
+				</div>
+				<div class="col-9">
+					<input type="text" class="form-control" name="author"/>
+				</div>
+			</div>
+
+			<div class="row m-2">
+				<div class="col-3">
+					ISBN検索:
+				</div>
+				<div class="col-9">
+					<input type="text" class="form-control" name="isbn"/>
+				</div>
+			</div>
+
+			<div class="row m-2">
+				<div class="col">
+					<p>タイトル別</p>
+				</div>
+				<div class="col">
+					<select class="form-control" name="titleOp">
+						<option selected></option>
+						<option th:each="kana:${kanaList}" th:value="${kana}" th:inline="text">[[${kana}]]</option>
+					</select>
+				</div>
+
+				<div class="col">
+					<p>著者別</p>
+				</div>
+				<div class="col">
+					<select class="form-control" name="authorOp">
+						<option selected></option>
+						<option th:each="author:${authors}" th:value="${author}" th:inline="text">[[${author}]]</option>
+					</select>
+				</div>
+			</div>
+
+
+			<hr>
+
+			<div class="row float-right">
+				<div class="col">
+					<input type="submit" class="btn btn-primary" value="検索">
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+
+ <div th:include="footer"></div>
+ <script th:src="@{/js/default.js}"></script>
+</body>
+</html>
