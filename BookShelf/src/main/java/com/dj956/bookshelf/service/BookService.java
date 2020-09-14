@@ -55,4 +55,12 @@ public class BookService {
 		return bookDAO.search(form);
 	}
 
+	public List<Book> searchByKeyword(String keyword){
+		return bookDAO.searchByKeyword(keyword);
+	}
+
+	public boolean existsBook(String title, String isbn) {
+		return bookDAO.existsBook(title, isbn) > 0;
+	}
+
 }

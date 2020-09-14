@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.math.NumberUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Book {
 
 	private static final String URL_REGEX = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
@@ -103,6 +105,7 @@ public class Book {
 	 * 本のカバー画像のパスがURLかどうか調べる
 	 * @return
 	 */
+	@JsonIgnore
 	public boolean isCoverPathUrl() {
 		var matcher = urlPattern.matcher(getCoverPath());
 		while(matcher.find()) {

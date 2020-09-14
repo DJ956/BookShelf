@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="header">
+</head>
+<title>本の管理 BookShelf</title>
+<style>
+.custom-file {
+	overflow: hidden;
+}
+
+.custom-file-label {
+	white-space: nowrap;
+}
+</style>
+<body>
+	<div th:include="navbar"></div>
+	<div id="active" class="manage"></div>
+
+	<div class="container-fulid m-3">
+		<div th:if="${isFailed != null && isFailed}">
+			<div class="alert alert-danger m-2" role="alert"><p th:text="${msg}"></p></div>
+		</div>
+
+		<div th:if="${isFailed != null && !isFailed}">
+			<div class="alert alert-success m-2" role="alert"><p th:text="${msg}"></p></div>
+		</div>
+
+		<form class="form-group" th:object="${form}" th:action="@{/file/upload4json}" enctype="multipart/form-data" method="POST">
+			<div class="row mb-2">
+				<div class="col-9">
+					<div class="custom-file">
+  						<input type="file" th:field="*{file}" accept=".json" class="custom-file-input" id="customFile">
+  						<label class="custom-file-label" for="customFile" data-browse="参照">ファイル選択...</label>
+					</div>
+				</div>
+
+				<div class="col-3">
+					<input class="form-control btn btn-success" type="submit" value="Json登録">
+				</div>
+			</div>
+		</form>
+
+		<br>
+
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">タイトル</th>
+					<th scope="col">タイトルカナ</th>
+					<th scope="col">著者</th>
+					<th scope="col">出版日</th>
+					<th scope="col">カバー画像</th>
+					<th scope="col">巻数</th>
+					<th scope="col">ISBN</th>
+					<th scope="col">#</th>
+				</tr>
+			</thead>
+
+			<tr th:each="book : ${books}">
+				<td th:text="${book.id}"></td>
+				<td th:text="${book.title}"></td>
+				<td th:text="${book.titleKana}"></td>
+				<td th:text="${book.author}"></td>
+				<td th:text="${book.publishDate}"></td>
+				<td th:text="${book.coverPath}"></td>
+				<td th:text="${book.index}"></td>
+				<td th:text="${book.isbn}"></td>
+				<td><a class="btn btn-success" role="button" th:href="@{'/view?bookId=' + ${book.id}}" th:text="編集"></a></td>
+			</tr>
+		</table>
+
+	</div>
+
+
+ <div th:include="footer"></div>
+ <script th:src="@{/js/default.js}"></script>
+<script>
+	$('.custom-file-input').on('change', function() {
+		$(this).next('.custom-file-label').html($(this)[0].files[0].name);
+	});
+</script>
+</body>
+</html>

@@ -66,6 +66,30 @@
 		ORDER BY index ASC
     </select>
 
+    <select id="searchByKeyword" resultType="com.dj956.bookshelf.model.Book">
+    	SELECT
+    		DISTINCT(id) AS id
+        	, title AS title
+        	, title_kana AS titleKana
+        	, author AS author
+        	, publishdate AS publishDate
+        	, isbn AS isbn
+        	, cover_path AS coverPath
+        	, index AS index
+    	FROM
+    	book
+    	WHERE
+    		1 = 1
+    		<if test="keyword != null and keyword != ''">
+    			AND title LIKE '%${title}%'
+    		</if>
+    		<if test="keyword != null and keyword != ''">
+    			OR author LIKE '%${author}%'
+    		</if>
+
+		ORDER BY title ASC
+    </select>
+
     <select id="selectTitleKana" resultType="string">
     	SELECT
     		DISTINCT(title_kana)
@@ -79,6 +103,16 @@
     	FROM
     	book
     </select>
+
+	<select id="existsBook" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+		book
+		WHERE
+			title = #{title}
+			AND isbn = #{isbn}
+	</select>
 
     <insert id="registry">
     	INSERT INTO book(title, title_kana, author, publishdate, isbn, cover_path, index)

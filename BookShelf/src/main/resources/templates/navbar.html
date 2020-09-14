@@ -16,9 +16,15 @@
       <li id="search" class="nav-item">
       	<a class="nav-link" href="/search">検索</a>
       </li>
+      <li id="manage" class="nav-item">
+      	<a class="nav-link" href="/manage">管理</a>
+      </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input type="search" class="form-control mr-sm-2" placeholder="検索..." aria-label="検索...">
+
+    <a class="nav-link btn btn-outline-info mr-2 my-2 my-sm-0" href="/api/write2json" role="button">Json出力</a>
+
+    <form class="form-inline my-2 my-lg-0" action="/search/result/keyword">
+      <input type="search" class="form-control mr-sm-2" name="keyword" placeholder="検索..." aria-label="検索...">
       <button type="submit" class="btn btn-outline-success my-2 my-sm-0">検索</button>
     </form>
   </div>

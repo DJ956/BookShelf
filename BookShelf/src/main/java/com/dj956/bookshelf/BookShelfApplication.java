@@ -66,6 +66,13 @@ public class BookShelfApplication {
 			return "registry_form";
 		}
 
+		// check exists
+		if(bookService.existsBook(book.getTitle(), book.getIsbn())) {
+			model.addAttribute("isFailed", true);
+			model.addAttribute("msg", messageSource.getMessage("alredy.exists", new String[] {book.getTitle()}, Locale.JAPAN));
+			return registryForm(model);
+		}
+
 		bookService.registry(book);
 
 		model.addAttribute("isFailed", false);
@@ -75,6 +82,12 @@ public class BookShelfApplication {
 	}
 
 
+	/**
+	 * 詳細情報を表示する
+	 * @param bookId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/view")
 	public String viewBook(@Valid @RequestParam("bookId") Integer bookId, Model model) {
 		var book = bookService.getById(bookId);
@@ -89,6 +102,13 @@ public class BookShelfApplication {
 	}
 
 
+	/**
+	 * 更新作業を行う
+	 * @param book
+	 * @param result
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/update", method=RequestMethod.POST)
 	public String update(@Validated Book book, BindingResult result, Model model) {
 		if(result.hasErrors()) {
@@ -105,6 +125,12 @@ public class BookShelfApplication {
 		return home(model);
 	}
 
+	/**
+	 * 削除を行う
+	 * @param bookId
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/delete")
 	public String delete(@Valid @RequestParam("bookId") Integer bookId, Model model) {
 		var book = bookService.getById(bookId);
@@ -144,6 +170,7 @@ public class BookShelfApplication {
 		return "searchForm";
 	}
 
+
 	@RequestMapping("/search/result")
 	public String searchResult(SearchForm form, Model model) {
 		var books = bookService.search(form);
@@ -154,6 +181,24 @@ public class BookShelfApplication {
 		model.addAttribute("books", books);
 		return "searchResult";
 	}
+
+	/**
+	 * NAVBARのキーワード検索を行う
+	 * @param keyword
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/search/result/keyword")
+	public String searchResult(@RequestParam("keyword") String keyword, Model model) {
+		var books = bookService.searchByKeyword(keyword);
+
+		model.addAttribute("isFailed", false);
+		model.addAttribute("msg", messageSource.getMessage("search.result", new String[] {String.valueOf(books.size())}, Locale.JAPAN));
+
+		model.addAttribute("books", books);
+		return "searchResult";
+	}
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookShelfApplication.class, args);

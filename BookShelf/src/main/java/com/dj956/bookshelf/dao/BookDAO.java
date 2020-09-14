@@ -22,4 +22,7 @@ public interface BookDAO {
 	void deleteBook(int id);
 
 	List<Book> search(SearchForm form);
+	List<Book> searchByKeyword(String keyword);
+
+	int existsBook(String title, String isbn);
 }
