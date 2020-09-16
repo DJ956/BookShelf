@@ -13,6 +13,7 @@
 	<artifactId>BookShelf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BookShelf</name>
+	<packaging>war</packaging>
 	<description>Book manager</description>
 
 	<properties>
@@ -33,6 +34,11 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.1.3</version>
 		</dependency>
+		 <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>org.postgresql</groupId>
