@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dj956.bookshelf.dao.BookDAO;
 import com.dj956.bookshelf.model.Book;
+import com.dj956.bookshelf.model.Pageable;
 import com.dj956.bookshelf.model.SearchForm;
 
 @Service
@@ -17,6 +18,14 @@ public class BookService {
 
 	public List<Book> getAll(){
 		return bookDAO.selectAll();
+	}
+
+	public int getCount() {
+		return bookDAO.selectCount();
+	}
+
+	public List<Book> getByOffset(Pageable pageable){
+		return bookDAO.selectIndex(pageable);
 	}
 
 	public Book getById(int id) {

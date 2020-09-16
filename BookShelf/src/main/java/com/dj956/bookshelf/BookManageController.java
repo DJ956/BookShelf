@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.dj956.bookshelf.model.Book;
 import com.dj956.bookshelf.model.FileUploadForm;
+import com.dj956.bookshelf.model.Pageable;
 import com.dj956.bookshelf.service.BookService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,9 +34,12 @@ public class BookManageController {
 	 * @return
 	 */
 	@RequestMapping("/manage")
-	public String manage(Model model) {
-		var books = bookService.getAll();
+	public String manage(int page, Model model) {
+		var pageable = new Pageable(bookService.getCount(), page);
 
+		var books = bookService.getByOffset(pageable);
+
+		model.addAttribute("pageable", pageable);
 		model.addAttribute("books", books);
 		model.addAttribute("form", new FileUploadForm());
 		return "bookManage";
@@ -68,7 +72,7 @@ public class BookManageController {
 			model.addAttribute("msg", messageSource.getMessage("alredy.exists", new String[] {unRegistryCnt + "件"}, Locale.JAPAN));
 		}
 
-		return manage(model);
+		return manage(0, model);
 	}
 
 	/**
@@ -93,7 +97,7 @@ public class BookManageController {
 		}catch(IOException e) {
 			model.addAttribute("isFailed", true);
 			model.addAttribute("msg", messageSource.getMessage("load.json.fail", new String[] {fileName, e.getMessage()}, Locale.JAPAN));
-			return manage(model);
+			return manage(0, model);
 		}
 	}
 

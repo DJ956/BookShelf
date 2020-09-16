@@ -18,6 +18,28 @@
         ORDER BY id ASC
     </select>
 
+    <select id="selectCount" resultType="int">
+    	SELECT
+    		COUNT(*) AS cnt
+    	FROM book
+    </select>
+
+    <select id="selectIndex" resultType="com.dj956.bookshelf.model.Book"  parameterType="com.dj956.bookshelf.model.Pageable">
+    	SELECT
+    		id AS id
+        	, title AS title
+        	, title_kana AS titleKana
+        	, author AS author
+        	, publishdate AS publishdate
+        	, isbn AS isbn
+        	, cover_path AS coverPath
+        	, index AS index
+        FROM
+        book
+        ORDER BY id ASC
+    		LIMIT #{pageSize} OFFSET #{offset}
+    </select>
+
     <select id="selectById" resultType="com.dj956.bookshelf.model.Book">
     	SELECT
     		id AS id

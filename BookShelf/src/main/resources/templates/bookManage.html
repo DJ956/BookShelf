@@ -41,6 +41,32 @@
 		</form>
 
 		<br>
+		<div>
+			<form th:action="@{/manage}" th:object="${pageable}" method="GET">
+				<nav aria-label="ページ">
+					<ul class="pagination justify-content-center">
+						<li class="page-item">
+							<span class="page-link" th:if="${pageable.first}">&lt;&lt;前</span>
+							<a class="page-link" th:if="${!pageable.first}" th:href="@{'/manage?page=' + ${pageable.prev}}">
+								&lt;&lt;前 </a>
+						</li>
+						<li th:each="i : ${#numbers.sequence(0, pageable.maxSize - 1)}" class="page-item">
+							<span class="page-link bg-primary text-white" th:if="${i} == ${pageable.currentPage}" th:text="${i + 1}">1</span>
+							<a class="page-link" th:if="${i} != ${pageable.currentPage}" th:href="@{'/manage?page=' + ${i}}">
+							<span th:text="${i+1}">1</span>
+							</a>
+						</li>
+						<li class="page-item">
+							<span class="page-link" th:if="${pageable.last}">次&gt;&gt;</span>
+							<a class="page-link" th:if="${!pageable.last}" th:href="@{'/manage?page=' + ${pageable.next}}">
+							次&gt;&gt; </a>
+						</li>
+					</ul>
+				</nav>
+			</form>
+		</div>
+
+		<hr>
 
 		<table class="table">
 			<thead class="thead-dark">
