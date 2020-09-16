@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.dj956.bookshelf.dao.BookDAO;
 import com.dj956.bookshelf.model.Book;
+import com.dj956.bookshelf.model.Genre;
 import com.dj956.bookshelf.model.Pageable;
 import com.dj956.bookshelf.model.SearchForm;
 
@@ -72,4 +73,7 @@ public class BookService {
 		return bookDAO.existsBook(title, isbn) > 0;
 	}
 
+	public List<Genre> getAllGenre(){
+		return bookDAO.selectAllGenre();
+	}
 }

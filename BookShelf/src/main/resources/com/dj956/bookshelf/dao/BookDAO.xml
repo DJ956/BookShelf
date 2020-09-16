@@ -5,17 +5,21 @@
 <mapper namespace="com.dj956.bookshelf.dao.BookDAO">
     <select id="selectAll" resultType="com.dj956.bookshelf.model.Book">
         SELECT
-        	id AS id
-        	, title AS title
-        	, title_kana AS titleKana
-        	, author AS author
-        	, publishdate AS publishdate
-        	, isbn AS isbn
-        	, cover_path AS coverPath
-        	, index AS index
+        	b.id AS id
+        	, b.title AS title
+        	, b.title_kana AS titleKana
+        	, b.author AS author
+        	, b.publishdate AS publishdate
+        	, b.isbn AS isbn
+        	, b.cover_path AS coverPath
+        	, b.index AS index
+        	, b.genre_id as genreId
+        	, g.name AS genreName
         FROM
-        book
-        ORDER BY id ASC
+        book b
+        INNER JOIN genre_tbl g
+        	ON g.id = b.genre_id
+        ORDER BY b.id ASC
     </select>
 
     <select id="selectCount" resultType="int">
@@ -26,90 +30,108 @@
 
     <select id="selectIndex" resultType="com.dj956.bookshelf.model.Book"  parameterType="com.dj956.bookshelf.model.Pageable">
     	SELECT
-    		id AS id
-        	, title AS title
-        	, title_kana AS titleKana
-        	, author AS author
-        	, publishdate AS publishdate
-        	, isbn AS isbn
-        	, cover_path AS coverPath
-        	, index AS index
+    		b.id AS id
+        	, b.title AS title
+        	, b.title_kana AS titleKana
+        	, b.author AS author
+        	, b.publishdate AS publishdate
+        	, b.isbn AS isbn
+        	, b.cover_path AS coverPath
+        	, b.index AS index
+        	, b.genre_id AS genreId
+        	, g.name AS genreName
         FROM
-        book
-        ORDER BY id ASC
+        book b
+        INNER JOIN genre_tbl g
+        	ON g.id = b.genre_id
+        ORDER BY b.id ASC
     		LIMIT #{pageSize} OFFSET #{offset}
     </select>
 
     <select id="selectById" resultType="com.dj956.bookshelf.model.Book">
     	SELECT
-    		id AS id
-        	, title AS title
-        	, title_kana AS titleKana
-        	, author AS author
-        	, publishdate AS publishDate
-        	, isbn AS isbn
-        	, cover_path AS coverPath
-        	, index AS index
+    		b.id AS id
+        	, b.title AS title
+        	, b.title_kana AS titleKana
+        	, b.author AS author
+        	, b.publishdate AS publishDate
+        	, b.isbn AS isbn
+        	, b.cover_path AS coverPath
+        	, b.index AS index
+        	, b.genre_id AS genreId
+        	, g.name AS genreName
     	FROM
-    	book
+    	book b
+    	INNER JOIN genre_tbl g
+    		ON g.id = b.genre_id
     	WHERE
-    		id = #{id}
+    		b.id = #{id}
     </select>
 
     <select id="search" resultType="com.dj956.bookshelf.model.Book">
     	SELECT
-    		id AS id
-        	, title AS title
-        	, title_kana AS titleKana
-        	, author AS author
-        	, publishdate AS publishDate
-        	, isbn AS isbn
-        	, cover_path AS coverPath
-        	, index AS index
+    		b.id AS id
+        	, b.title AS title
+        	, b.title_kana AS titleKana
+        	, b.author AS author
+        	, b.publishdate AS publishDate
+        	, b.isbn AS isbn
+        	, b.cover_path AS coverPath
+        	, b.index AS index
+        	, b.genre_id AS genreId
+        	, g.name AS genreName
     	FROM
-    	book
+    	book b
+    	INNER JOIN genre_tbl g
+    		ON g.id = b.genre_id
     	WHERE
     		1 = 1
     		<if test="title != null and title != ''">
-    			AND title LIKE '%${title}%'
+    			AND b.title LIKE '%${title}%'
     		</if>
     		<if test="author != null and author != ''">
-    			AND author LIKE '%${author}%'
+    			AND b.author LIKE '%${author}%'
     		</if>
     		<if test="isbn != null and isbn != ''">
-    			AND isbn = #{isbn}
+    			AND b.isbn = #{isbn}
     		</if>
     		<if test="titleOp != null and titleOp != ''">
-    			AND title_kana LIKE '%${titleOp}%'
+    			AND b.title_kana LIKE '%${titleOp}%'
     		</if>
     		<if test="authorOp != null and authorOp != ''">
-    			AND author LIKE '%${authorOp}%'
+    			AND b.author LIKE '%${authorOp}%'
     		</if>
-		ORDER BY index ASC
+    		<if test="genreId != null and genreId != 0">
+    			AND b.genre_id = #{genreId}
+    		</if>
+		ORDER BY b.author, b.index ASC
     </select>
 
     <select id="searchByKeyword" resultType="com.dj956.bookshelf.model.Book">
     	SELECT
-    		DISTINCT(id) AS id
-        	, title AS title
-        	, title_kana AS titleKana
-        	, author AS author
-        	, publishdate AS publishDate
-        	, isbn AS isbn
-        	, cover_path AS coverPath
-        	, index AS index
+    		DISTINCT(b.id) AS id
+        	, b.title AS title
+        	, b.title_kana AS titleKana
+        	, b.author AS author
+        	, b.publishdate AS publishDate
+        	, b.isbn AS isbn
+        	, b.cover_path AS coverPath
+        	, b.index AS index
+        	, b.genreId AS genreId
+			, g.name AS genreName
     	FROM
     	book
+    	INNER JOIN genre_tbl g
+    		ON g.id = b.genre_id
     	WHERE
     		1 = 1
     		<if test="keyword != null and keyword != ''">
-    			AND title LIKE '%${title}%'
+    			AND b.title LIKE '%${title}%'
     		</if>
     		<if test="keyword != null and keyword != ''">
-    			OR author LIKE '%${author}%'
+    			OR b.author LIKE '%${author}%'
     		</if>
-
-		ORDER BY title ASC
+		ORDER BY b.title ASC
     </select>
 
     <select id="selectTitleKana" resultType="string">
@@ -137,13 +159,14 @@
 	</select>
 
     <insert id="registry">
-    	INSERT INTO book(title, title_kana, author, publishdate, isbn, cover_path, index)
-    	VALUES(#{title}, #{titleKana}, #{author}, #{publishDate}, #{isbn}, #{coverPath}, #{index});
+    	INSERT INTO book(title, title_kana, author, publishdate, isbn, cover_path, index, genre_id)
+    	VALUES(#{title}, #{titleKana}, #{author}, #{publishDate}, #{isbn}, #{coverPath}, #{index}, #{genreId});
     </insert>
 
     <update id="updateBook" parameterType="com.dj956.bookshelf.model.Book">
     	UPDATE book SET
-    	title = #{title}, title_kana = #{titleKana}, author = #{author}, publishdate = #{publishDate}, isbn = #{isbn}, cover_path = #{coverPath}, index= #{index}
+    	title = #{title}, title_kana = #{titleKana}, author = #{author}, publishdate = #{publishDate}, isbn = #{isbn},
+    	cover_path = #{coverPath}, index= #{index}, genre_id = #{genreId}
     	WHERE id = #{id}
     </update>
 
@@ -151,5 +174,12 @@
 		DELETE FROM book
 		WHERE id = #{id}
 	</delete>
+
+	<select id="selectAllGenre" resultType="com.dj956.bookshelf.model.Genre">
+		SELECT
+			id AS id
+			, name AS name
+		FROM genre_tbl
+	</select>
 
 </mapper>

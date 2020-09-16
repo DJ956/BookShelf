@@ -104,9 +104,17 @@
 							<div class="col-3">
 								<label>巻数:</label>
 							</div>
-							<div class="col-9">
+							<div class="col-3">
 								<input id="index" class="form-control" type="number" min="0" name="index" th:value="*{index}" />
 								<span th:if="${#fields.hasErrors('index')}" th:errors="*{index}">error!</span>
+							</div>
+							<div class="col-2">
+								<label>ジャンル:</label>
+							</div>
+							<div class="col-4">
+								<select class="form-control" name="genreId">
+									<option th:each="genre:${genres}" th:value="${genre.id}" th:selected="${book.genreId == genre.id}" th:inline="text">[[${genre.name}]]</option>
+								</select>
 							</div>
 						</div>
 

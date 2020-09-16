@@ -27,6 +27,9 @@
 						<span>著者:</span>
 						<span class="card-text" th:text="${book.author}"></span>
 						<br>
+						<span>ジャンル:</span>
+						<span class="card-text" th:text="${book.genreName}"></span>
+						<br>
 						<a th:href="@{'/view?bookId=' + ${book.id}}" class="btn btn-primary" role="button">詳細</a>
 					</div>
 				</div>

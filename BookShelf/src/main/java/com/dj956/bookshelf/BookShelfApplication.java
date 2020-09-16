@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.dj956.bookshelf.model.Book;
+import com.dj956.bookshelf.model.Pageable;
 import com.dj956.bookshelf.model.SearchForm;
 import com.dj956.bookshelf.service.BookService;
 
@@ -35,8 +36,11 @@ public class BookShelfApplication {
 
 
 	@RequestMapping("/")
-	public String home(Model model) {
-		model.addAttribute("list", bookService.getAll());
+	public String home(@RequestParam(name = "page", defaultValue = "0")int page, Model model) {
+		var pageable = new Pageable(bookService.getCount(), page);
+		model.addAttribute("books", bookService.getByOffset(pageable));
+		model.addAttribute("page", page);
+		model.addAttribute("pageable", pageable);
 
 		return "index";
 	}
@@ -48,8 +52,10 @@ public class BookShelfApplication {
 	 */
 	@RequestMapping("/registry_form")
 	public String registryForm(Model model) {
+		var genres = bookService.getAllGenre();
+		model.addAttribute("genres", genres);
 		model.addAttribute("book", new Book());
-		return "registry_form";
+		return "registryForm";
 	}
 
 	/**
@@ -63,7 +69,7 @@ public class BookShelfApplication {
 	public String registry(@ModelAttribute @Valid Book book, BindingResult result, Model model) {
 		if(result.hasErrors()) {
 			model.addAttribute("error", result.getErrorCount());
-			return "registry_form";
+			return "registryForm";
 		}
 
 		// check exists
@@ -73,12 +79,18 @@ public class BookShelfApplication {
 			return registryForm(model);
 		}
 
+		var kana = book.getTitleKana();
+		kana = kana.replace(" ", "");
+		kana = kana.replace("　", "");
+		kana = kana.replaceAll("\\d", "");
+		book.setTitleKana(kana);
+
 		bookService.registry(book);
 
 		model.addAttribute("isFailed", false);
 		model.addAttribute("msg", messageSource.getMessage("registry.success", new String[] {book.getTitle()}, Locale.JAPAN));
 
-		return home(model);
+		return home(0, model);
 	}
 
 
@@ -94,10 +106,11 @@ public class BookShelfApplication {
 		if(book == null) {
 			model.addAttribute("isFailed", true);
 			model.addAttribute("msg", messageSource.getMessage("book.notexists", new String[] {bookId.toString()}, Locale.JAPAN));
-			return home(model);
+			return home(0, model);
 		}
 
 		model.addAttribute("book", book);
+		model.addAttribute("genres", bookService.getAllGenre());
 		return "viewBook";
 	}
 
@@ -122,7 +135,7 @@ public class BookShelfApplication {
 		model.addAttribute("isFailed", false);
 		model.addAttribute("msg", messageSource.getMessage("update.success", new String[] {book.getTitle()}, Locale.JAPAN));
 
-		return home(model);
+		return home(0, model);
 	}
 
 	/**
@@ -137,7 +150,7 @@ public class BookShelfApplication {
 		if(book == null) {
 			model.addAttribute("isFailed", true);
 			model.addAttribute("msg", messageSource.getMessage("book.notexists", new String[] {bookId.toString()}, Locale.JAPAN));
-			return home(model);
+			return home(0, model);
 		}
 
 		bookService.delete(bookId);
@@ -145,7 +158,7 @@ public class BookShelfApplication {
 		model.addAttribute("isFailed", false);
 		model.addAttribute("msg", messageSource.getMessage("delete.success", new String[] {book.getTitle()}, Locale.JAPAN));
 
-		return home(model);
+		return home(0, model);
 	}
 
 	@RequestMapping("/search")
@@ -166,6 +179,7 @@ public class BookShelfApplication {
 		model.addAttribute("searchForm", new SearchForm());
 		model.addAttribute("kanaList", kanaList);
 		model.addAttribute("authors", authors);
+		model.addAttribute("genres", bookService.getAllGenre());
 
 		return "searchForm";
 	}
@@ -175,7 +189,9 @@ public class BookShelfApplication {
 	public String searchResult(SearchForm form, Model model) {
 		var books = bookService.search(form);
 
-		model.addAttribute("isFailed", false);
+		boolean isFailed = books.size() > 0 ? false : true;
+
+		model.addAttribute("isFailed", isFailed);
 		model.addAttribute("msg", messageSource.getMessage("search.result", new String[] {String.valueOf(books.size())}, Locale.JAPAN));
 
 		model.addAttribute("books", books);

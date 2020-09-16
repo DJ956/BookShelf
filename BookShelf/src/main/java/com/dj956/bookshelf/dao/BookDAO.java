@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.dj956.bookshelf.model.Book;
+import com.dj956.bookshelf.model.Genre;
 import com.dj956.bookshelf.model.Pageable;
 import com.dj956.bookshelf.model.SearchForm;
 
@@ -29,4 +30,6 @@ public interface BookDAO {
 	List<Book> searchByKeyword(String keyword);
 
 	int existsBook(String title, String isbn);
+
+	List<Genre> selectAllGenre();
 }

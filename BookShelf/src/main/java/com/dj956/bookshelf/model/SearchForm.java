@@ -11,6 +11,7 @@ public class SearchForm {
 	private String isbn;
 	private String titleOp;
 	private String authorOp;
+	private int genreId;
 
 
 	public String getTitle() {
@@ -53,11 +54,19 @@ public class SearchForm {
 		this.authorOp = authorOp;
 	}
 
+	public int getGenreId() {
+		return genreId;
+	}
+
+	public void setGenreId(int genreId) {
+		this.genreId = genreId;
+	}
 
 	@Override
 	public String toString() {
 		return "SearchForm [title=" + title + ", author=" + author + ", isbn=" + isbn + ", titleOp=" + titleOp
-				+ ", authorOp=" + authorOp + "]";
+				+ ", authorOp=" + authorOp + ", genreId=" + genreId + "]";
 	}
+
 
 }

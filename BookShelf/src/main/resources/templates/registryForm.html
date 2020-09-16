@@ -78,7 +78,7 @@
 								<label>出版日:</label>
 							</div>
 							<div class="col-9">
-								<input id="publishDate" class="form-control" type="text" name="publishDate"/>
+								<input id="publishDate" class="form-control" type="text" name="publishDate" value="19000101"/>
 								<span th:if="${#fields.hasErrors('publishDate')}" th:errors="*{publishDate}" style="color:red">error!</span>
 							</div>
 						</div>
@@ -96,9 +96,17 @@
 							<div class="col-3">
 								<label>巻数:</label>
 							</div>
-							<div class="col-9">
+							<div class="col-3">
 								<input id="index" class="form-control" type="number" min="0" name="index" th:field="*{index}"/>
 								<span th:if="${#fields.hasErrors('index')}" th:errors="*{index}" style="color:red">error!</span>
+							</div>
+							<div class="col-2">
+								<label>ジャンル:</label>
+							</div>
+							<div class="col-4">
+								<select class="form-control" name="genreId">
+									<option th:each="genre:${genres}" th:value="${genre.id}" th:inline="text">[[${genre.name}]]</option>
+								</select>
 							</div>
 						</div>
 
@@ -126,5 +134,15 @@
 
 	<div th:include="footer"></div>
 	<script th:src="@{/js/default.js}"></script>
+	<script>
+	$(function(){
+		$("#coverPath").on("keyup", function(){
+			$("#img").attr("src", $("#coverPath").val());
+		});
+
+		$("#img").attr("src", $("#coverPath").val());
+	});
+
+	</script>
 </body>
 </html>

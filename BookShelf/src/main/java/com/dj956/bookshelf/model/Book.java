@@ -46,6 +46,10 @@ public class Book {
 	@Max(8)
 	private int index = -1;
 
+	private int genreId;
+
+	private String genreName;
+
 	public int getId() {return id;}
 	public void setId(int id) {
 		this.id = id;
@@ -101,6 +105,11 @@ public class Book {
 		this.coverPath = coverPath;
 	}
 
+	public int getGenreId() {return genreId;}
+	public void setGenreId(int genreId) {
+		this.genreId = genreId;
+	}
+
 	/**
 	 * 本のカバー画像のパスがURLかどうか調べる
 	 * @return
@@ -143,4 +152,11 @@ public class Book {
 			return false;
 		return true;
 	}
+	public String getGenreName() {
+		return genreName;
+	}
+	public void setGenreName(String genreName) {
+		this.genreName = genreName;
+	}
+
 }

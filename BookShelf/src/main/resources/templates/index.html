@@ -16,21 +16,54 @@
 			<div class="alert alert-success m-2" role="alert"><p th:text="${msg}"></p></div>
 		</div>
 
-		<h1>Hello</h1>
 
-		<table border="1">
-			<tr>
-				<th>id</th>
-				<th>title</th>
-				<th>author</th>
-			</tr>
 
-			<tr th:each="book : ${list}">
-				<td><a th:href="@{'/view?bookId=' + ${book.id}}" th:text="${book.id}"></a></td>
-				<td th:text="${book.title}"></td>
-				<td th:text="${book.author}"></td>
-			</tr>
-		</table>
+		<div class="row">
+
+			<div class="col m-3" th:each="book:${books}">
+				<div class="card" style="width: 18rem;">
+					<img class="bd-placeholder-img card-img-top" width="100%" height="300" th:src="${book.coverPath}" />
+					<div class="card-body">
+						<h5 class="card-title" th:text="${book.title}"></h5>
+						<span>著者:</span>
+						<span class="card-text" th:text="${book.author}"></span>
+						<br>
+						<span>ジャンル:</span>
+						<span class="card-text" th:text="${book.genreName}"></span>
+						<br>
+						<a th:href="@{'/view?bookId=' + ${book.id}}" class="btn btn-primary" role="button">詳細</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<hr>
+
+		<div>
+			<form th:action="@{/}" th:object="${pageable}" method="GET">
+				<nav aria-label="ページ">
+					<ul class="pagination justify-content-center">
+						<li class="page-item">
+							<span class="page-link" th:if="${pageable.first}">&lt;&lt;前</span>
+							<a class="page-link" th:if="${!pageable.first}" th:href="@{'/?page=' + ${pageable.prev}}">
+								&lt;&lt;前 </a>
+						</li>
+						<li th:each="i : ${#numbers.sequence(0, pageable.maxSize - 1)}" class="page-item">
+							<span class="page-link bg-primary text-white" th:if="${i} == ${pageable.currentPage}" th:text="${i + 1}">1</span>
+							<a class="page-link" th:if="${i} != ${pageable.currentPage}" th:href="@{'/?page=' + ${i}}">
+							<span th:text="${i+1}">1</span>
+							</a>
+						</li>
+						<li class="page-item">
+							<span class="page-link" th:if="${pageable.last}">次&gt;&gt;</span>
+							<a class="page-link" th:if="${!pageable.last}" th:href="@{'/?page=' + ${pageable.next}}">
+							次&gt;&gt; </a>
+						</li>
+					</ul>
+				</nav>
+			</form>
+		</div>
 
 	</div>
 
