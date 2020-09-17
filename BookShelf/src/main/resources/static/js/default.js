@@ -14,7 +14,7 @@ $(function(){
 		};
 
 		$.ajax({
-			url:"/api/bookinfo",
+			url:"/bookshelf/api/bookinfo",
 			type:"GET",
 			data:request,
 			async:true,
@@ -36,7 +36,7 @@ $(function(){
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown){
-				console.log("リクエスト時になんらかのエラーが発生しました：" + textStatus +":\n" + errorThrown);
+				alert("リクエスト時になんらかのエラーが発生しました：" + textStatus +":\n" + errorThrown);
 			}
 		});
 
